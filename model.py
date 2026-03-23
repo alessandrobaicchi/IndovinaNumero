@@ -2,71 +2,61 @@ import random
 
 class Model(object):
     def __init__(self):
+        # questa riga imposta il valore massimo del numero segreto
         self._Nmax = 100
+        # questa riga imposta il numero massimo di tentativi
         self._Tmax = 6
+        # questa riga inizializza i tentativi rimanenti al massimo
         self._T = self._Tmax
+        # questa riga conterrà il numero segreto da indovinare
         self._segreto = None
 
     def reset(self):
-        """Questo metodo resetta lo stato del gioco. Imposta il segreto a un valore randomico fra 0 e NMax
-        e ripristina il numero di tentativi rimanenti."""
-        self._segreto = random.randint(0, self._Nmax)
+        # questa riga sceglie un nuovo numero segreto casuale tra 1 e Nmax
+        self._segreto = random.randint(1, self._Nmax)
+        # questa riga ripristina i tentativi rimanenti al valore massimo
         self._T = self._Tmax
+        # questa riga stampa il segreto in console (utile per debug)
         print(self._segreto)
 
-
     def play(self, tentativo):
-        """Questo metodo riceve come argomento un valore intero, che sarà il tentativo del giocatore e
-        lo confronta con il segreto, se il return è:
-        -1 --> il segreto è più piccolo del tentativo
-        0  --> il segreto è uguale al tentativo
-        1  --> il segreto è più grande del tentativo
-        2  --> non ci sono più tentativi per giocare"""
-
+        # questa riga consuma un tentativo (decrementa il contatore)
         self._T -= 1
 
+        # questa riga controlla se il tentativo è esattamente uguale al segreto
         if tentativo == self._segreto:
-            """L'utente ha vinto"""
+            # questa riga indica che l'utente ha indovinato
             return 0
 
+        # questa riga controlla se i tentativi sono finiti
         if self._T == 0:
-            """Non ci sono più tentativi, quindi non puoi più giocare"""
+            # questa riga indica che non ci sono più tentativi disponibili
             return 2
 
+        # questa riga controlla se il tentativo è maggiore del segreto
         if tentativo > self._segreto:
-            """Il tentativo dell'utente è più grande del segreto"""
+            # questa riga indica che il segreto è più piccolo del tentativo
             return -1
         else:
-            """Il tentativo dell'utente è più piccolo del segreto"""
+            # questa riga indica che il segreto è più grande del tentativo
             return 1
-
 
     @property
     def Nmax(self):
+        # questa riga restituisce il valore massimo del numero segreto
         return self._Nmax
 
     @property
     def Tmax(self):
+        # questa riga restituisce il numero massimo di tentativi
         return self._Tmax
 
     @property
     def T(self):
+        # questa riga restituisce il numero di tentativi rimanenti
         return self._T
 
     @property
     def segreto(self):
+        # questa riga restituisce il numero segreto corrente
         return self._segreto
-
-
-if __name__ == "__main__":
-    m = Model()
-    m.reset()
-    print(m.play(10))
-    print(m.play(20))
-    print(m.play(30))
-    print(m.play(70))
-    print(m.play(80))
-    print(m.play(60))
-    print(m.play(50))
-
-
